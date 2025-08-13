@@ -39,19 +39,21 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
 
   const handleProgressUpdate = (increment: boolean) => {
-    const newCompletedLessons = increment 
-      ? Math.min(course.completedLessons + 1, course.totalLessons)
-      : Math.max(course.completedLessons - 1, 0);
-    
-    const pct = (newCompletedLessons / course.totalLessons) * 100;
-    const newStatus = course["status"] = pct === 100 ? 'completed' : pct > 0 ? 'in-progress' : 'not-started';
+  const newCompletedLessons = increment
+    ? Math.min(course.completedLessons + 1, course.totalLessons)
+    : Math.max(course.completedLessons - 1, 0);
 
-    onUpdate(course.id, {
-      completedLessons: newCompletedLessons,
-      status: newStatus,
+  const pct = (newCompletedLessons / course.totalLessons) * 100;
+  const newStatus: Course["status"] =
+    pct === 100 ? "completed" : pct > 0 ? "in-progress" : "not-started";
+
+  onUpdate(course.id, {
+    completedLessons: newCompletedLessons,
+    status: newStatus,
     });
   };
 
+  const pct = Math.round((course.completedLessons / course.totalLessons) * 100)
   return (
     <>
       <Card className="bg-gradient-card border shadow-card hover:shadow-elevated transition-all duration-300 group">
@@ -105,9 +107,9 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span>Progresso</span>
-              <span>{Math.round(course.progress)}%</span>
-            </div>
-            <Progress value={course.progress} className="h-2" />
+              <span>{pct}%</span>
+            </div >
+            <Progress value={pct} className="h-2" />
           </div>
         </CardContent>
 

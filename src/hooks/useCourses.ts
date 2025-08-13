@@ -8,10 +8,12 @@ export const useCourses = () => {
 
   // Load courses from localStorage on mount
   useEffect(() => {
-    const savedCourses = localStorage.getItem(STORAGE_KEY);
-    if (savedCourses) {
-      setCourses(JSON.parse(savedCourses));
-    }
+    try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) setCourses(JSON.parse(saved));
+  }catch (e){
+    console.error("Error loading courses from localStorage:", e);
+  };
   }, []);
 
   // Save courses to localStorage whenever courses change

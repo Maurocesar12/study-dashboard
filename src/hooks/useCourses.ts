@@ -16,7 +16,11 @@ export const useCourses = () => {
 
   // Save courses to localStorage whenever courses change
   useEffect(() => {
+    try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
+    }catch (e){
+      console.error("Error saving courses to localStorage:", e);
+    }
   }, [courses]);
 
   const addCourse = (courseData: Omit<Course, 'id' | 'createdAt' | 'updatedAt'>) => {

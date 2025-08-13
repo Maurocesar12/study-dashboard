@@ -68,7 +68,11 @@ export const StudyDashboard = () => {
               </div>
               <div className="w-full bg-muted rounded-full h-3">
                 <div 
-                  className="bg-gradient-primary h-3 rounded-full transition-all duration-500"
+                role="progressbar"
+                aria-valuenow={Math.round(overallProgress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                  className="bg-gradient-primary h-3 rounded-full"
                   style={{ width: `${overallProgress}%` }}
                 />
               </div>

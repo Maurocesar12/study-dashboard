@@ -43,12 +43,11 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
       ? Math.min(course.completedLessons + 1, course.totalLessons)
       : Math.max(course.completedLessons - 1, 0);
     
-    const newProgress = (newCompletedLessons / course.totalLessons) * 100;
-    const newStatus = newProgress === 100 ? 'completed' : newProgress > 0 ? 'in-progress' : 'not-started';
+    const pct = (newCompletedLessons / course.totalLessons) * 100;
+    const newStatus = course["status"] = pct === 100 ? 'completed' : pct > 0 ? 'in-progress' : 'not-started';
 
     onUpdate(course.id, {
       completedLessons: newCompletedLessons,
-      progress: newProgress,
       status: newStatus,
     });
   };

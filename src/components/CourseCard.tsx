@@ -54,6 +54,10 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
   };
 
   const pct = Math.round((course.completedLessons / course.totalLessons) * 100)
+  function setConfirmOpen(arg0: boolean): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <>
       <Card className="bg-gradient-card border shadow-card hover:shadow-elevated transition-all duration-300 group">
@@ -78,8 +82,7 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => onDelete(course.id)}
-                  className="text-destructive"
-                >
+                  className="text-destructive">
                   <Trash2 className="w-4 h-4 mr-2" />
                   Excluir
                 </DropdownMenuItem>

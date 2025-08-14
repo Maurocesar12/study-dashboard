@@ -5,6 +5,7 @@ import { useCourses } from '@/hooks/useCourses';
 import { CourseCard } from './CourseCard';
 import { StatsCard } from './StatsCard';
 import { AddCourseDialog } from './AddCourseDialog';
+import ThemeToggle from './ThemeToggle';
 
 export const StudyDashboard = () => {
   const { courses, addCourse, updateCourse, deleteCourse, getStats } = useCourses();
@@ -18,7 +19,7 @@ export const StudyDashboard = () => {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
+        {/* Header */} <ThemeToggle />
         <div className="text-center space-y-4">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight
                         bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500

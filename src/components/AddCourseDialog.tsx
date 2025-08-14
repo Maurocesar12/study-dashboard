@@ -55,6 +55,7 @@ export const AddCourseDialog = ({ open, onOpenChange, onSubmit }: AddCourseDialo
       ...formData,
       progress: 0,
       completedLessons: 0,
+      studyLogs: []
     });
 
     // Reset form

@@ -1,6 +1,7 @@
 export type CourseStatus = 'not-started' | 'in-progress' | 'completed';
 
 export interface Course {
+  studyLogs: unknown[];
   id: string;
   title: string;
   description: string;
@@ -21,4 +22,11 @@ export interface CourseStats {
   inProgressCourses: number;
   totalHours: number;
   completedHours: number;
+}
+
+export interface studyLog {
+  id: string;
+  date: string;
+  minutes: number;
+  note?: string;
 }

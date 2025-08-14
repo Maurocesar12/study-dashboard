@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Course, CourseStats } from '@/types/course';
+import { Course, CourseStats, studyLog } from '@/types/course';
 import { useMemo } from 'react';
 
 const STORAGE_KEY = 'study-dashboard-courses';
@@ -96,6 +96,42 @@ export const useCourses = () => {
 
   const memoizedStats = useMemo(() => getStats(), [getStats]);
 
+  // Helpers de logs
+  const addStudyLog = (courseId: string, log: Omit<studyLog, 'id' | 'date'> & { date?: string }) => {
+  setCourses(prev => prev.map(c => {
+    if (c.id !== courseId) return c;
+    const list = c.studyLogs ?? [];
+    const newLog: studyLog = {
+      id: crypto.randomUUID(),
+      date: log.date ?? new Date().toISOString(),
+      minutes: Math.max(1, Math.floor(log.minutes || 1)),
+      note: log.note?.trim() || undefined,
+    };
+    return {
+      ...c,
+      studyLogs: [newLog, ...list],
+      updatedAt: new Date().toISOString(),
+    };
+  }));
+};
+
+const updateStudyLog = (courseId: string, logId: string, patch: Partial<studyLog>) => {
+  setCourses(prev => prev.map(c => {
+    if (c.id !== courseId) return c;
+    const list = (c.studyLogs ?? []).map((l: studyLog) => (l && l.id === logId) ? { ...l, ...patch } : l);
+    return { ...c, studyLogs: list, updatedAt: new Date().toISOString() };
+  }));
+};
+
+const deleteStudyLog = (courseId: string, logId: string) => {
+  setCourses(prev => prev.map(c => {
+    if (c.id !== courseId) return c;
+    const list = (c.studyLogs ?? []).filter((l: studyLog) => l.id !== logId);
+    return { ...c, studyLogs: list, updatedAt: new Date().toISOString() };
+  }));
+};
+
+
   return {
     courses,
     addCourse,
@@ -103,5 +139,9 @@ export const useCourses = () => {
     deleteCourse,
     getStats: () => memoizedStats,
     getFiltered,
+    addStudyLog,
+    updateStudyLog,
+    deleteStudyLog,
+    
   };
 };

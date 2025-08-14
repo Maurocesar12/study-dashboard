@@ -63,7 +63,3 @@ cd study-dashboard-main
 
 ## 📄 Licença
 Este projeto está sob a licença MIT. Sinta-se livre para usar e modificar.
-
-yaml
-Copiar
-Editar

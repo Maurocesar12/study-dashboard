@@ -20,7 +20,11 @@ export const StudyDashboard = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight
+                        bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500
+                        bg-clip-text text-transparent
+                        drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]
+                        animate-gradient-x">
             Dashboard de Estudos
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

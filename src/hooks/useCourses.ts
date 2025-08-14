@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Course, CourseStats } from '@/types/course';
+import { useMemo } from 'react';
 
 const STORAGE_KEY = 'study-dashboard-courses';
 
@@ -8,19 +9,19 @@ export const useCourses = () => {
 
   // Load courses from localStorage on mount
   useEffect(() => {
-    try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) setCourses(JSON.parse(saved));
-  }catch (e){
-    console.error("Error loading courses from localStorage:", e);
-  };
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setCourses(JSON.parse(saved));
+    } catch (e) {
+      console.error("Error loading courses from localStorage:", e);
+    }
   }, []);
 
   // Save courses to localStorage whenever courses change
   useEffect(() => {
-    try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
-    }catch (e){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
+    } catch (e) {
       console.error("Error saving courses to localStorage:", e);
     }
   }, [courses]);
@@ -49,6 +50,7 @@ export const useCourses = () => {
     setCourses(prev => prev.filter(course => course.id !== id));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getStats = (): CourseStats => {
     const totalCourses = courses.length;
     const completedCourses = courses.filter(c => c.status === 'completed').length;
@@ -67,11 +69,39 @@ export const useCourses = () => {
     };
   };
 
+  const getFiltered = (params: { search: string; status: string; category: string; orderBy: string; }) => {
+    const { search, status, category, orderBy } = params;
+    return [...courses]
+      .filter(c => {
+        const matchesSearch =
+          !search ||
+          c.title.toLowerCase().includes(search.toLowerCase()) ||
+          (c.description ?? '').toLowerCase().includes(search.toLowerCase());
+
+        const matchesStatus = status === 'all' || c.status === status;
+        const matchesCategory = category === 'all' || c.category === category;
+
+        return matchesSearch && matchesStatus && matchesCategory;
+      })
+      .sort((a, b) => {
+        switch (orderBy) {
+          case 'updatedAt_desc': return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+          case 'createdAt_desc': return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          case 'progress_desc': return (b.progress ?? 0) - (a.progress ?? 0);
+          case 'title_asc': return a.title.localeCompare(b.title);
+          default: return 0;
+        }
+      });
+  };
+
+  const memoizedStats = useMemo(() => getStats(), [getStats]);
+
   return {
     courses,
     addCourse,
     updateCourse,
     deleteCourse,
-    getStats,
+    getStats: () => memoizedStats,
+    getFiltered,
   };
 };

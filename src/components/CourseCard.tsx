@@ -54,10 +54,6 @@ export const CourseCard = ({ course, onUpdate, onDelete }: CourseCardProps) => {
   };
 
   const pct = Math.round((course.completedLessons / course.totalLessons) * 100)
-  function setConfirmOpen(arg0: boolean): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
     <>
       <Card className="bg-gradient-card border shadow-card hover:shadow-elevated transition-all duration-300 group">
